@@ -14,7 +14,7 @@ public class InsertionSort {
      * @return new list
      */
     public static List<Integer> insertionSort(final List<Integer> unsortedList){
-        List<Integer> sortedList = new ArrayList<Integer>();
+        List<Integer> sortedList = new ArrayList<Integer>(unsortedList.size());
         int i=0;
         // For all the numbers in the unSorted list run this loop
         for(int number : unsortedList){
