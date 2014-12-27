@@ -255,7 +255,7 @@ public class TreeDS {
     public static void printRootToLeafPaths(Tree root){
         List newList = new LinkedList();
         newList.add(root);
-        printRootToLeafPaths(root, newList );
+        printRootToLeafPaths(root, newList);
     }
     public static void printRootToLeafPaths(Tree root, List list){
         List newList = new LinkedList(list);
@@ -281,11 +281,38 @@ public class TreeDS {
             printRootToLeafPaths(root.right, newList);
         }
     }
+    public static void printLCA(Tree<Integer> root, int left, int right){
+        if (root == null){
+            System.out.println("LCA not found");
+        } else if(root.value > left && root.value> right){
+            printLCA(root.left,left,right);
+        } else if (root.value< left && root.value < right){
+            printLCA(root.right,left,right);
+        } else {
+            // LCA is the root
+            System.out.println("LCA found: " + root.value);
+        }
+    }
+    public static int findMinInBST(Tree<Integer> root){
+        while (root.left !=null){
+            root = root.left;
+        }
+        return root.value;
+    }
+    public static int getLeafCount(Tree root){
+        if (root == null){
+            return 0;
+        } else if (root.left == null && root.right == null){
+            return 1;
+        } else if (root.left == null){
+            return 1 + getLeafCount(root.right);
+        }
+    }
     public static void main(String [] args){
         Tree h = getNewTree();
         size(h);
 //        printTree(h);
-//        levelOrderTraversal(h);
+//        levintelOrderTraversal(h);
 //        List leaves = getAllLeaves(h);
 //        for (Object value : leaves) {
 //            Tree leaf = (Tree)value;
