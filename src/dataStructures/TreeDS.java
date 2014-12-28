@@ -6,6 +6,10 @@ import java.util.*;
  * Created by bhuvan on 27/12/14.
  */
 public class TreeDS {
+    /**
+     *
+     * @return
+     */
     public static Tree getNewTree(){
         Tree<Integer> head = new Tree<Integer>(5);
         head.left = new Tree<Integer>(2);
@@ -16,6 +20,24 @@ public class TreeDS {
         head.right.right = new Tree<Integer>(8);
         return head;
     }
+
+    /**
+     *
+     * @param root
+     * @return
+     */
+    public static int getDiameter(Tree root){
+        int leftHeight = findHeight(root.left);
+        int rightHeight = findHeight(root.right);
+        int leftDia = getDiameter(root.left);
+        int rightDia = getDiameter(root.right);
+        return Math.max(leftHeight+rightHeight, Math.max(leftDia, rightDia));
+    }
+
+    /**
+     *
+     * @param root
+     */
     public static void levelOrderTraversal(Tree root){
         System.out.println("***Level Order Traversal***");
         Queue<Tree> queue = new LinkedList<Tree>();
@@ -38,12 +60,24 @@ public class TreeDS {
                 queue.add(temp.right);
         }
     }
+
+    /**
+     *
+     * @param root
+     * @return
+     */
     public static List<Tree> getAllLeaves(Tree root){
         List<Tree> ll = new LinkedList<Tree>();
         System.out.print("The leaves are: ");
         getAllLeaves(root, ll);
         return ll;
     }
+
+    /**
+     *
+     * @param root
+     * @param leaves
+     */
     public static void getAllLeaves(Tree root, List<Tree> leaves){
         if (root.left == null && root.right == null){
             leaves.add(root);
@@ -54,6 +88,11 @@ public class TreeDS {
         if (root.right != null)
             getAllLeaves(root.right, leaves);
     }
+
+    /**
+     *
+     * @param root
+     */
     public static void printTree(Tree root){
         if (root == null)
             return;
@@ -61,14 +100,34 @@ public class TreeDS {
         System.out.println(root.value+"\n");
         printTree(root.right);
     }
+
+    /**
+     *
+     * @param root
+     * @return
+     */
     public static int findHeight(Tree root){
         if (root == null)
             return 0;
         return 1 + Math.max(findHeight(root.left),findHeight(root.right));
     }
+
+    /**
+     *
+     * @param root
+     * @return
+     */
     public static boolean checkIfBST(Tree<Integer> root){
         return checkIfBST(root, Integer.MIN_VALUE,Integer.MAX_VALUE);
     }
+
+    /**
+     *
+     * @param root
+     * @param min
+     * @param max
+     * @return
+     */
     public static boolean checkIfBST(Tree<Integer> root, int min, int max){
         if (root == null)
             return true;
@@ -86,6 +145,11 @@ public class TreeDS {
             min = Math.max(root.right.value, min);
         return checkIfBST(root.left,Integer.MIN_VALUE,max) & checkIfBST(root.right,min,Integer.MAX_VALUE);
     }
+
+    /**
+     *
+     * @param root
+     */
     public static void printLeftView(Tree<Integer> root){
         if (root == null )
             return;
@@ -98,6 +162,11 @@ public class TreeDS {
             printLeftView(root.right);
         }
     }
+
+    /**
+     *
+     * @param root
+     */
     public static void printRightView(Tree<Integer> root){
         if (root == null )
             return;
@@ -130,6 +199,12 @@ public class TreeDS {
         inOrderTraversalRecursion(root, newList);
         return newList;
     }
+
+    /**
+     *
+     * @param root
+     * @param list
+     */
     public static void inOrderTraversalRecursion(Tree root, List list){
         if (root == null){
             return;
@@ -140,10 +215,21 @@ public class TreeDS {
             inOrderTraversalRecursion(root.right, list);
         }
     }
+
+    /**
+     *
+     * @param root
+     */
     public static void preOrderTraversalRecursion(Tree root){
         List newList = new LinkedList();
         preOrderTraversalRecursion(root,newList);
     }
+
+    /**
+     *
+     * @param root
+     * @param list
+     */
     public static void preOrderTraversalRecursion(Tree root, List list){
         if (root == null){
             return;
@@ -154,10 +240,21 @@ public class TreeDS {
             preOrderTraversalRecursion(root.right,list);
         }
     }
+
+    /**
+     *
+     * @param root
+     */
     public static void postOrderTraversalRecursion(Tree root){
         List newList = new LinkedList();
         postOrderTraversalRecursion(root,newList);
     }
+
+    /**
+     *
+     * @param root
+     * @param list
+     */
     public static void postOrderTraversalRecursion(Tree root, List list){
         if (root == null){
             return;
@@ -186,6 +283,23 @@ public class TreeDS {
     }
 
     /**
+     * http://www.geeksforgeeks.org/write-an-efficient-c-function-to-convert-a-tree-into-its-mirror-tree/
+     * @param root
+     */
+    public static void getMirror(Tree<Integer> root){
+        if (root == null){
+            return;
+        }
+        // swap left and right children
+        Tree temp = root.right;
+        root.right = root.left;
+        root.left = temp;
+        temp = null;
+        getMirror(root.left);
+        getMirror(root.right);
+
+    }
+    /**
      * todo explain the algorithm
      * @param root
      */
@@ -209,6 +323,12 @@ public class TreeDS {
             }
         }
     }
+
+    /**
+     *
+     * @param root
+     * @return
+     */
     public static int size(Tree root){
         if(root == null)
             return 0;
@@ -217,6 +337,40 @@ public class TreeDS {
         }
     }
 
+    /**
+     *
+     * @param root
+     * @return
+     */
+    public static int checkSum(Tree<Integer> root){
+        if (root == null)
+            return 0;
+        int left = checkSum(root.left);
+        int right = checkSum(root.right);
+        if (left == -1 || right == -1)
+            return -1;
+        if (root.value == left+right){
+            return root.value;
+        } else {
+            System.out.println("Property not satisfied");
+            return -1;
+        }
+    }
+    /**
+     * @link http://www.geeksforgeeks.org/convert-an-arbitrary-binary-tree-to-a-tree-that-holds-children-sum-property/
+     */
+    public static int convertToSumTree(Tree<Integer> root){
+        if (root == null){
+            return 0;
+        }
+        int result = checkSum(root.left)+checkSum(root.right);
+        if (result==0)
+            return root.value;
+        else if(root.value != result){
+            root.value = result;
+        }
+        return root.value;
+    }
     /**
      * This method checks if the two trees are identical to each other
      * They should have the same structure and contain the same elements
@@ -236,6 +390,12 @@ public class TreeDS {
         else
             return false;
     }
+
+    /**
+     *
+     * @param root
+     * @return
+     */
     public static int treeHeight(Tree root){
         if (root == null)
             return 0;
@@ -243,6 +403,11 @@ public class TreeDS {
             return 1 + Math.max(treeHeight(root.left), treeHeight(root.right));
         }
     }
+
+    /**
+     *
+     * @param root
+     */
     public static void deleteTree(Tree root){
         if (root == null){
             return;
@@ -252,11 +417,22 @@ public class TreeDS {
             root = null;
         }
     }
+
+    /**
+     *
+     * @param root
+     */
     public static void printRootToLeafPaths(Tree root){
         List newList = new LinkedList();
         newList.add(root);
         printRootToLeafPaths(root, newList);
     }
+
+    /**
+     *
+     * @param root
+     * @param list
+     */
     public static void printRootToLeafPaths(Tree root, List list){
         List newList = new LinkedList(list);
         if (root.left == null && root.right == null) {
@@ -281,6 +457,13 @@ public class TreeDS {
             printRootToLeafPaths(root.right, newList);
         }
     }
+
+    /**
+     *
+     * @param root
+     * @param left
+     * @param right
+     */
     public static void printLCA(Tree<Integer> root, int left, int right){
         if (root == null){
             System.out.println("LCA not found");
@@ -293,19 +476,31 @@ public class TreeDS {
             System.out.println("LCA found: " + root.value);
         }
     }
+
+    /**
+     *
+     * @param root
+     * @return
+     */
     public static int findMinInBST(Tree<Integer> root){
         while (root.left !=null){
             root = root.left;
         }
         return root.value;
     }
+
+    /**
+     *
+     * @param root
+     * @return
+     */
     public static int getLeafCount(Tree root){
         if (root == null){
             return 0;
         } else if (root.left == null && root.right == null){
             return 1;
-        } else if (root.left == null){
-            return 1 + getLeafCount(root.right);
+        } else {
+            return 1 + getLeafCount(root.left) + getLeafCount(root.right);
         }
     }
     public static void main(String [] args){
@@ -332,6 +527,10 @@ public class TreeDS {
         printRootToLeafPaths(h);
     }
 
+    /**
+     *
+     * @param <E>
+     */
     static class  Tree<E>{
         E value;
         Tree<E> left;
