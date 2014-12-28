@@ -20,10 +20,62 @@ public class TreeDS {
         head.right.right = new Tree<Integer>(8);
         return head;
     }
+    /**
+     * http://www.geeksforgeeks.org/maximum-width-of-a-binary-tree/
+     * @param root
+     */
+    public static int maxWidthBinaryTree(Tree root){
+        // do a level order traversal and at each level update the count
+        // of that level save the count into max if its greater than previous max
+        return 0;
+    }
 
     /**
-     *
+     * http://www.geeksforgeeks.org/g-fact-18/
+     * @param n
+     * Catalan number
+     */
+    public static int totalNoOfBSTWithNKeys(int n){
+        return 0;
+    }
+
+    /**
+     * http://www.geeksforgeeks.org/foldable-binary-trees/
+     * One approach is to create mirror of a tree and check if its same as the given tree
      * @param root
+     * @return
+     */
+    public static boolean isFoldableBST(Tree root){
+       return true;
+    }
+
+    /**
+     * http://www.geeksforgeeks.org/print-nodes-at-k-distance-from-root/
+     * Two approaches can be thought about:
+     * 1. Do a level order traversal and print nodes  at kth level
+     * 2. Recursive approach, call the method again with its children and updated length
+     *    if length=k print the number and dont call its children
+     * @param root
+     */
+    public static void printKDistanceFromRoot(Tree root){
+
+    }
+    /**
+     * http://www.geeksforgeeks.org/double-tree/
+     * @param root: Tree root
+     */
+    public static void doubleTree(Tree root){
+        if (root == null)
+            return;
+        Tree newNode = new Tree(root.value);
+        newNode.left = root.left;
+        root.left = newNode;
+        doubleTree(newNode.left);
+        doubleTree(root.right);
+    }
+    /**
+     *
+     * @param root Root of the tree for which diameter has to be found out
      * @return
      */
     public static int getDiameter(Tree root){
