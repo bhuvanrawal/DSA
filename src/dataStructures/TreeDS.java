@@ -48,7 +48,50 @@ public class TreeDS {
     public static boolean isFoldableBST(Tree root){
        return true;
     }
+    /**
+     * Why Trees?
+     * http://www.geeksforgeeks.org/applications-of-tree-data-structure/
+     */
+    /**
+     * http://www.geeksforgeeks.org/inorder-successor-in-binary-search-tree/
+     *
+     * inOrder successor is the next element in the inOrder sequence of the tree.
+     * Since its greater than the node it has to be present on the right subtree.
+     * we need to go to the right sub tree and return the leftmost child of the right node
+     *
+     * @param node
+     * @return
+     */
+    public static Tree inOrderSuccessor(Tree node){
+        if (node.right == null)
+            return null;
+        else {
+            node = node.right;
+            while(node.left != null){
+                node = node.left;
+            }
+            return node;
+        }
+    }
 
+    /**
+     * http://www.geeksforgeeks.org/find-k-th-smallest-element-in-bst-order-statistics-in-bst/
+     * This can be done by doing an inorder traversal and finding the kth element in it
+     * A more elegant solutin would be to use Augumented tree
+     * todo create and use augumented tree class for this method
+     * @param root
+     * @return
+     */
+    public static Tree getKthNodeInABSTSorted(Tree root){
+
+    }
+    /**
+     * Do a inOrder on the arrayList input
+     * @param arrayList
+     */
+    public static void printSortedTree(List<Integer> arrayList){
+
+    }
     /**
      * http://www.geeksforgeeks.org/print-nodes-at-k-distance-from-root/
      * Two approaches can be thought about:
