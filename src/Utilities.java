@@ -14,4 +14,19 @@ public class Utilities {
         }
         return newList;
     }
+    public static int quickSelect(List arrayList, int index){
+        return quickSelect(arrayList, index, 0, arrayList.size());
+    }
+    public static int quickSelect(List<Integer> arrayList, int index, int start, int end){
+        int pos = sorting.QuickSort.partition(arrayList,start,end);
+        if (pos == index){
+            return arrayList.get(pos);
+        } else if (pos > index){
+            // Need to check only left hand side of the array
+            return quickSelect(arrayList, index, start, pos);
+        } else {
+            // Need to check only right side of the array
+            return quickSelect(arrayList, index, pos+1, end);
+        }
+    }
 }
