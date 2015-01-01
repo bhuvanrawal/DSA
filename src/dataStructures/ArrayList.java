@@ -1,6 +1,13 @@
 package dataStructures;
 
+<<<<<<< HEAD
 import java.util.*;
+=======
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+>>>>>>> 924cbe1b6143d523c7cdd9b0439013cea566fae3
 
 /**
  * Class created for different kind of questions asked on array in interviews.
@@ -63,8 +70,11 @@ public class ArrayList {
     }
 
     /**
+<<<<<<< HEAD
      * http://www.geeksforgeeks.org/write-a-c-program-that-given-a-set-a-of-n-numbers-and-another-number-x-determines-whether-or-not-there-exist-two-elements-in-s-whose-sum-is-exactly-x/
      * Given an array A[] and a number x, check for pair in A[] with sum as x
+=======
+>>>>>>> 924cbe1b6143d523c7cdd9b0439013cea566fae3
      * @param arrayList
      * @param result
      * @return
@@ -86,13 +96,17 @@ public class ArrayList {
     }
 
     /**
+<<<<<<< HEAD
      * http://www.geeksforgeeks.org/write-a-c-program-that-given-a-set-a-of-n-numbers-and-another-number-x-determines-whether-or-not-there-exist-two-elements-in-s-whose-sum-is-exactly-x/
      * Given an array A[] and a number x, check for pair in A[] with sum as x
+=======
+>>>>>>> 924cbe1b6143d523c7cdd9b0439013cea566fae3
      * @param arrayList
      * @param result
      * @return
      */
     public static boolean doesSumAplusBExistInArrayHashmap(List<Integer> arrayList, int result) {
+<<<<<<< HEAD
         Map<Integer,Integer> hashtable= new Hashtable<>();
         for (int i : arrayList){
             hashtable.put(arrayList.get(i),0);
@@ -117,5 +131,11 @@ public class ArrayList {
             xor = i^xor;
         }
         return xor;
+=======
+        Map<Integer,Integer> hashmap = new HashMap<Integer, Integer>();
+        for (int i : arrayList){
+            hashmap.put()
+        }
+>>>>>>> 924cbe1b6143d523c7cdd9b0439013cea566fae3
     }
 }
