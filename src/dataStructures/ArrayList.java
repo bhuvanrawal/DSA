@@ -1,13 +1,12 @@
 package dataStructures;
 
-<<<<<<< HEAD
+import java.util.List;
+
 import java.util.*;
-=======
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
->>>>>>> 924cbe1b6143d523c7cdd9b0439013cea566fae3
 
 /**
  * Class created for different kind of questions asked on array in interviews.
@@ -70,11 +69,8 @@ public class ArrayList {
     }
 
     /**
-<<<<<<< HEAD
      * http://www.geeksforgeeks.org/write-a-c-program-that-given-a-set-a-of-n-numbers-and-another-number-x-determines-whether-or-not-there-exist-two-elements-in-s-whose-sum-is-exactly-x/
      * Given an array A[] and a number x, check for pair in A[] with sum as x
-=======
->>>>>>> 924cbe1b6143d523c7cdd9b0439013cea566fae3
      * @param arrayList
      * @param result
      * @return
@@ -96,17 +92,14 @@ public class ArrayList {
     }
 
     /**
-<<<<<<< HEAD
      * http://www.geeksforgeeks.org/write-a-c-program-that-given-a-set-a-of-n-numbers-and-another-number-x-determines-whether-or-not-there-exist-two-elements-in-s-whose-sum-is-exactly-x/
      * Given an array A[] and a number x, check for pair in A[] with sum as x
-=======
->>>>>>> 924cbe1b6143d523c7cdd9b0439013cea566fae3
      * @param arrayList
      * @param result
      * @return
      */
     public static boolean doesSumAplusBExistInArrayHashmap(List<Integer> arrayList, int result) {
-<<<<<<< HEAD
+
         Map<Integer,Integer> hashtable= new Hashtable<>();
         for (int i : arrayList){
             hashtable.put(arrayList.get(i),0);
@@ -125,17 +118,71 @@ public class ArrayList {
      * @param arrayList
      * @return
      */
-    public static int findNumberOccuringOddTimes(List<Integer> arrayList){
-        int xor=0;
-        for (int i: arrayList){
-            xor = i^xor;
+    public static int findNumberOccuringOddTimes(List<Integer> arrayList) {
+        int xor = 0;
+        for (int i : arrayList) {
+            xor = i ^ xor;
         }
         return xor;
-=======
-        Map<Integer,Integer> hashmap = new HashMap<Integer, Integer>();
-        for (int i : arrayList){
-            hashmap.put()
-        }
->>>>>>> 924cbe1b6143d523c7cdd9b0439013cea566fae3
     }
+
+    /**
+     * http://www.geeksforgeeks.org/largest-sum-contiguous-subarray/
+     * Largest Sum Contiguous Subarray
+     * Kadane’s Algorithm:
+     * @param arrayList
+     * @return
+     */
+    public static int largestContinuousSum(List<Integer> arrayList){
+        int max_till_now=0;
+        int max_ending_here=0;
+        for (int i:arrayList){
+            max_ending_here += max_ending_here + i;
+            if (max_ending_here < 0)
+                max_ending_here = 0;
+            else if (max_ending_here >= max_till_now) {
+                max_till_now = max_ending_here;
+            }
+        }
+        return max_till_now;
+    }
+
+    /**
+     * http://www.geeksforgeeks.org/find-the-missing-number/
+     * Find the Missing Number
+     * @param arrayList
+     * @return
+     */
+    public static int findTheMissingNumber(List<Integer> arrayList){
+        int sum =0;
+        for (int i:arrayList){
+            sum += i;
+        }
+        return (arrayList.size()*(arrayList.size()-1)/2) - sum;
+    }
+    public static boolean searchInRotatedPivotedArray(List<Integer> arrayList, int number){
+        int mid = arrayList.size()/2;
+        int min = 0;
+        int max = arrayList.size();
+        while (true) {
+            mid =( min +max)/2;
+            if (arrayList.get(mid) == number)
+            {
+                return true;
+            }
+            else if (mid == max)
+            {
+                return false;
+            } else if (number < arrayList.get(mid) && number > arrayList.get(min)){
+                max = mid;
+                mid = mid + max/2;
+            }
+        }
+    }
+//    public static
+//        Map<Integer,Integer> hashmap = new HashMap<Integer, Integer>();
+//        for (int i : arrayList){
+//            hashmap.put()
+//        }
+//    }
 }
