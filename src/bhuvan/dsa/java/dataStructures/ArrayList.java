@@ -437,7 +437,7 @@ public class ArrayList {
         }
     }
 
-    /** 
+    /**
      * http://www.geeksforgeeks.org/segregate-0s-and-1s-in-an-array-by-traversing-array-once/
      * Segregate 0s and 1s in an array
      * @param arrayList
@@ -465,10 +465,12 @@ public class ArrayList {
      * http://www.geeksforgeeks.org/k-largestor-smallest-elements-in-an-array/
      * k largest(or smallest) elements in an array | added Min Heap method
      * @param arrayList
+     * @param k
      * @return
      */
-    public static int kthLargestElement(List arrayList){
-        
+    public static int kthLargestElement(List arrayList, int k){
+        return bhuvan.dsa.java.Utilities.quickSelect(arrayList,k);
     }
+
 
 }
