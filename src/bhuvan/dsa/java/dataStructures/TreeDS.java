@@ -1,6 +1,10 @@
 package bhuvan.dsa.java.dataStructures;
 
 import java.util.*;
+import java.util.ArrayList;
+
+import bhuvan.dsa.java.dataStructures.CustomLinkedList;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 /**
  * Created by bhuvan on 27/12/14.
@@ -124,9 +128,9 @@ public class TreeDS {
         if (root.left == null && root.right == null) {
             return true;
         }else if (root.left != null && root.right == null){
-            return true;
+            return false;
         } else if (root.right != null && root.left == null){
-            return true;
+            return false;
         } else {
             return isFoldableBST(root.left, root.right);
         }
@@ -321,7 +325,7 @@ public class TreeDS {
     }
 
     /**
-     *
+     * Dummy Method for checkIfBST(Tree, int, int)
      * @param root
      * @return
      */
@@ -330,7 +334,7 @@ public class TreeDS {
     }
 
     /**
-     *
+     * Checks if a given Tree is a Binary search tree
      * @param root
      * @param min
      * @param max
@@ -355,37 +359,203 @@ public class TreeDS {
     }
 
     /**
+     * Print Ancestors of a given node in Binary Tree
+     * Given a Binary Tree and a key, write a function that prints all the ancestors of the key in the given binary tree.
+     * @param root
+     */
+    public static boolean printAncestorsNode(Tree root, int target){
+        if (root == null){
+            return false;
+        }
+        if (root.value == target) {
+            return true;
+        }
+        if (printAncestorsNode(root.left,target) || printAncestorsNode(root.right,target)) {
+            System.out.println(root.value);
+            return true;
+        }
+        return false;
+    }
+    public static void printTreeVerticalOrder(Tree node){
+        CustomLinkedList.DoublyLL<List> newList = new CustomLinkedList.DoublyLL<List>();
+        newList.data = new LinkedList();
+        printTreeVerticalOrder(node,newList);
+        CustomLinkedList.DoublyLL temp = newList;
+        while (temp.previous != null){
+            temp = temp.previous;
+        }
+        while (temp.next != null){
+            System.out.println(temp.data);
+            temp = temp.next;
+        }
+    }
+    /**
+     * Print Tree Vertical Order
+     * @param node
+     * @param inputList
+     */
+    public static void printTreeVerticalOrder(Tree node, CustomLinkedList.DoublyLL<List> inputList){
+          if(node.left !=null){
+              if (inputList.previous!=null){
+                  inputList.data.add(node.left);
+              } else {
+                  inputList.previous = new CustomLinkedList.DoublyLL<List>();
+                  inputList.previous.next = inputList;
+                  inputList.previous.data = new LinkedList();
+                  inputList.previous.data.add(node.left);
+                  
+              }
+              printTreeVerticalOrder(node.left,inputList.previous);
+          }
+          if(node.right!=null){
+              if (inputList.next != null){
+                  inputList.data.add(node.right);
+              } else {
+                  inputList.next = new CustomLinkedList.DoublyLL<List>();
+                  inputList.next.data = new LinkedList();
+                  inputList.next.previous = inputList;
+                  inputList.next.data.add(node.right);
+              }
+              printTreeVerticalOrder(node.right,inputList.next);
+          }
+    }
+
+    /**
+     * 
+     * @param node
+     * @param k
+     */
+    public static void printNodesDistanceKromLeafNode (Tree node, int k){
+        // Create an array with all the indices
+        Queue<Tree> queue = new LinkedList<Tree>();
+        queue.add(node);
+        int index =0;
+        List arrayList = new ArrayList();
+        List auxarray = new ArrayList();
+        while (!queue.isEmpty()){
+            Tree temp = queue.remove();
+            arrayList.add(index, temp);
+            auxarray.add(index, false);
+            index++;
+            if (temp.left == null && temp.right == null){
+                // leaf node found print the parent at distance k
+                // from the array that we have created
+                int t = k;
+                int tempIndex = index;
+                while (t >=0) {
+                    t--;
+                    tempIndex = tempIndex/2;
+                }
+                if (auxarray.get(tempIndex) == false) {
+                    System.out.println(arrayList.get(tempIndex));
+                    auxarray.set(index, true);
+                }
+            }
+            if (temp.left != null){
+                queue.add(temp.left);                
+            }
+            if (temp.right != null){
+                queue.add(temp.right);
+            }
+        }
+        
+    }
+
+    /**
+     * Given 2 nodes and a tree root, find the shortest path in the tree
+     * from key1 to key2
+     * @param root
+     * @param key1
+     * @param key2
+     */
+    public static void findDistanceBetweenTwoKeys(Tree root, int key1, int key2){
+        List l1,l2;
+        l1 = new LinkedList();
+        l2 = new LinkedList();
+        l1 = rootToLeafPath(root, key1,l1);
+        l2 = rootToLeafPath(root, key2,l2);
+        int size;
+        int length=0;
+        if (l1.size()>l2.size()){
+            while (l1.size()>l2.size()) {
+                l1.remove(l1.size() - 1);
+                length++;
+            }
+        } else if (l1.size() < l2.size()) {
+            while (l1.size() <l2.size()) {
+                l2.remove(l2.size() - 1);
+                length++;
+            }
+        }
+        size = l2.size();
+        while (l1.get(size)!=l2.get(size)){
+            length++;            
+        }
+        System.out.println(length);
+    }
+
+    /**
+     * Given a tree root and a value k find the root to leaf path for
+     * that key and insert the path into the given linked list
+     * @param root
+     * @param key
+     * @param linkedList
+     * @return
+     */
+    public static List rootToLeafPath(Tree root, int key, List linkedList){
+        List ll = new LinkedList(linkedList);
+        if (root==null){
+            return null;            
+        }
+        if (root.left == null && root.right == null) {
+            if (root.value == key)
+                return ll;
+            else 
+                return null;
+        }
+        if (root.left != null){
+            ll.add(root.left);
+            rootToLeafPath(root.left,key,ll);
+        }
+        if (root.right != null){
+            ll.add(root.right);
+            rootToLeafPath(root.right,key,ll);
+        }
+        return null;
+    }
+    /**
      *
      * @param root
      */
     public static void printLeftView(Tree<Integer> root){
-        if (root == null )
-            return;
-        else {
-            System.out.println(root.value);
-        }
-        if (root.left != null) {
-            printLeftView(root.left);
-        } else if (root.right != null){
-            printLeftView(root.right);
-        }
+        // do a level order traversal and print the first node in each level
     }
 
+    /**
+     * Print nodes in a binary tree with no siblings
+     * @param root
+     */
+    public static void printNodesWithNoSiblings(Tree root){
+        if (root == null) {
+            return;
+        }
+        else if (root.left != null && root.right == null){
+            System.out.println(root.left.value);
+            printNodesWithNoSiblings(root.left);
+        } else if (root.right != null && root.left == null) {
+            System.out.println(root.right.value);
+            printNodesWithNoSiblings(root.right);
+        } else {
+            printNodesWithNoSiblings(root.left);
+            printNodesWithNoSiblings(root.right);
+        }
+    }
     /**
      *
      * @param root
      */
     public static void printRightView(Tree<Integer> root){
-        if (root == null )
-            return;
-        else {
-            System.out.println(root.value);
-        }
-        if (root.right != null) {
-            printRightView(root.right);
-        } else if (root.left != null){
-            printRightView(root.left);
-        }
+        // Do a level order traversal and print the last node in each level
     }
 
     /**
@@ -393,7 +563,7 @@ public class TreeDS {
      * @param root top of of the tree
      */
     public static void printTopView(Tree<Integer> root){
-
+        // similar question that was asked in amazon to me
     }
     /**
      * TODO
@@ -665,20 +835,33 @@ public class TreeDS {
             printRootToLeafPaths(root.right, newList);
         }
     }
-
+    public static Tree printLCABinaryTree (Tree root, int n1, int n2){
+        if (root == null) {
+            return null;
+        }
+        if (root.value == n1 || root.value == n2) {
+            return root;
+        }
+        if (printLCABinaryTree(root.left, n1,n2) != null && 
+        printLCABinaryTree(root.right, n1,n2)!= null) {
+            // LCA found
+        }
+        
+        
+    }
     /**
      *
      * @param root
      * @param left
      * @param right
      */
-    public static void printLCA(Tree<Integer> root, int left, int right){
+    public static void printLCABST(Tree<Integer> root, int left, int right){
         if (root == null){
             System.out.println("LCA not found");
         } else if(root.value > left && root.value> right){
-            printLCA(root.left, left, right);
+            printLCABST(root.left, left, right);
         } else if (root.value< left && root.value < right){
-            printLCA(root.right, left, right);
+            printLCABST(root.right, left, right);
         } else {
             // LCA is the root
             System.out.println("LCA found: " + root.value);
@@ -710,6 +893,69 @@ public class TreeDS {
         } else {
             return 1 + getLeafCount(root.left) + getLeafCount(root.right);
         }
+    }
+
+    /**
+     * http://www.geeksforgeeks.org/lowest-common-ancestor-binary-tree-set-1/
+     * Given a binary tree (not a binary search tree) and two values say n1 and n2,
+     * write a program to find the least common ancestor.
+     * Following is definition of LCA from Wikipedia:
+     * Let T be a rooted tree. The lowest common ancestor between two nodes n1 and n2 is
+     * defined as the lowest node in T that has both n1 and n2 as descendants
+     * (where we allow a node to be a descendant of itself).
+     * @param root
+     * @param n1
+     * @param n2
+     * @return
+     */
+    public static Tree<Integer> lowestCommonAncestor(Tree<Integer> root, int n1, int n2) {
+        if (root == null)
+            return null;
+        if (root.value == n1 || root.value == n2) {
+            return root;
+        }
+        else {
+            Tree left = lowestCommonAncestor(root.left,  n1,  n2);
+            Tree right = lowestCommonAncestor(root.right,  n1,  n2);
+            if (left != null && right != null) {
+                return root;
+            } else {
+                return (left != null ? lowestCommonAncestor(root.left,n1,n2):
+                        lowestCommonAncestor(root.right,n1,n2));
+            }
+        }
+    }
+
+    /**
+     * http://www.geeksforgeeks.org/in-place-convert-a-given-binary-tree-to-doubly-linked-list/
+     * Given a Binary Tree (Bt), convert it to a Doubly Linked List(DLL).
+     * The left and right pointers in nodes are to be used as previous and next pointers respectively
+     * in converted DLL. The order of nodes in DLL must be same as Inorder of the given Binary Tree.
+     * The first node of Inorder traversal (left most node in BT) must be head node of the DLL.
+     * @param root
+     */
+    public static void convertTreeToDoublyLL(Tree root){
+        if (root.left!=null){
+            convertTreeToDoublyLL(root.left);
+            // find the inorder predecessor and insert root to its end
+            Tree temp = root.left;
+            while (temp.right != null){
+                temp = temp.right;
+            }
+            root.left=temp;
+            temp.right=root;
+        }
+        if (root.right != null) {
+            convertTreeToDoublyLL(root.right);
+            // find the inorder successor and insert root to its beginning
+            Tree temp = root.right;
+            while (temp.left != null){
+                temp = temp.left;
+            }
+            root.right = temp;
+            temp.left = root;
+        }
+
     }
     public static void main(String [] args){
         Tree h = getNewTree();
