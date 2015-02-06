@@ -103,7 +103,7 @@ public class ArrayList {
      */
     public static boolean doesSumAplusBExistInArrayHashmap(List<Integer> arrayList, int result) {
 
-        Map<Integer,Integer> hashtable= new Hashtable<>();
+        Map<Integer,Integer> hashtable= new Hashtable<Integer,Integer>();
         for (int i : arrayList){
             hashtable.put(arrayList.get(i),0);
         }
@@ -163,6 +163,17 @@ public class ArrayList {
         }
         return (arrayList.size()*(arrayList.size()-1)/2) - sum;
     }
+
+    /**
+     * http://www.geeksforgeeks.org/search-an-element-in-a-sorted-and-pivoted-array/
+     * An element in a sorted array can be found in O(log n) time via binary search. 
+     * But suppose I rotate the sorted array at some pivot unknown to you beforehand. 
+     * So for instance, 1 2 3 4 5 might become 3 4 5 1 2. Devise a way to find an element
+     * in the rotated array in O(log n) time.
+     * @param arrayList
+     * @param number
+     * @return
+     */
     public static boolean searchInRotatedPivotedArray(List<Integer> arrayList, int number){
         int mid = arrayList.size()/2;
         int min = 0;
@@ -235,21 +246,13 @@ public class ArrayList {
     /**
      * http://www.geeksforgeeks.org/median-of-two-sorted-arrays/
      * Median of two sorted arrays
-     * @param arrayList
+     * @param arrayList1
+     * @param arrayList2
      * @return
      */
-    public static int median(List<Integer> arrayList){
-        int middle = arrayList.size()/2;
-        int start = 0;
-        int end = arrayList.size()-1;
-        int pos = QuickSort.partition(arrayList,start,end);
-        while (true) {
-            if (pos == middle)
-                return arrayList.get(pos);
-            else if (pos < middle) {
-
-            }
-        }
+    public static int median(List<Integer> arrayList1,List<Integer> arrayList2){
+        // todo
+        return -1;
     }
 
     /**
@@ -259,8 +262,8 @@ public class ArrayList {
      * @return
      */
     public static int maxSumNoTwoNumAdjacent(List<Integer> arrayList) {
-        int incl = 0;
-        int excl = 0;
+        int incl = Integer.MIN_VALUE;
+        int excl = Integer.MIN_VALUE;
         int excl_new = 0;
         for (int i = 0; i<arrayList.size(); i++) {
             excl_new = incl>excl ? incl:excl;
@@ -295,7 +298,7 @@ public class ArrayList {
      * @return
      */
     public static List<Integer> sortFrequency (List<Integer> arrayList){
-        HashMap<Integer, Integer> frequencyMap = new HashMap<>();
+        HashMap<Integer, Integer> frequencyMap = new HashMap<Integer,Integer>();
         for (int i=0; i<arrayList.size(); i++) {
             if (frequencyMap.containsKey(arrayList.get(i))) {
                 int temp = frequencyMap.get(arrayList.get(i));
@@ -367,10 +370,12 @@ public class ArrayList {
      */
     public static List<Integer> intersectionTwoLists(List<Integer> list1, List<Integer> list2){
         int i=0,j=0;
-        List<Integer> newList = new LinkedList<>();
+        List<Integer> newList = new LinkedList<Integer>();
         for (;i<list1.size()&&j<list2.size();) {
             if (list1.get(i).equals( list2.get(j))){
                 newList.add(list1.get(i));
+                i++;
+                j++;
             } else if (list1.get(i)>list2.get(j)){
                 j++;
             } else {
@@ -471,6 +476,167 @@ public class ArrayList {
     public static int kthLargestElement(List arrayList, int k){
         return bhuvan.dsa.java.Utilities.quickSelect(arrayList,k);
     }
+    /**
+     *  http://www.geeksforgeeks.org/search-in-row-wise-and-column-wise-sorted-matrix/
+     *  Search for a number in row wise and column wise sorted matrix
+     *   Given an n x n matrix, where every row and column is sorted in increasing order. 
+     *   Given a number x, how to decide whether this x is in the matrix. The designed 
+     *   algorithm should have linear time complexity.
+     */
+    public static boolean findElementInRowColumnSortedMatrix(int [][] array,int element){
+        return findElementInRowColumnSortedMatrix(array,array.length-1,0,element);
+        
+    }
+    public static boolean findElementInRowColumnSortedMatrix(int [][] array,int x, int y,int element){
+        if (x>=array.length || y>=array.length)
+            return false;
+        if (array[x][y]==element){
+            System.out.println("Number Found"+(x)+" "+(y));
+            return true;
+        } else if (element <array[x][y]){
+            return findElementInRowColumnSortedMatrix(array,x-1,y,element);
+            
+        } else{
+            return findElementInRowColumnSortedMatrix(array,x,y+1,element);
+        }
 
-
-}
+    }
+    /**
+     *  http://www.geeksforgeeks.org/next-greater-element/
+     *  Next Greater Element
+     *  Given an array, print the Next Greater Element (NGE) for every element. 
+     *  The Next greater Element for an element x is the first greater element on the right side of x in array. 
+     *  Elements for which no greater element exist, consider next greater element as -1.
+     */
+    public static void printNextGreaterElement(List<Integer> arrayList){
+        Stack<Integer> stack = new Stack<Integer>();
+        for (int i=0;i< arrayList.size()-1;i++){
+            stack.push(i);
+            if (arrayList.get(i+1)>arrayList.get(i)){
+                while(!stack.empty()){
+                    int num = stack.pop();
+                    if (num<arrayList.get(i+1)){
+                        System.out.println(num+"->"+arrayList.get(i+1));
+                    }
+                    else 
+                        break;
+                }
+            }            
+        }
+        
+    }
+    /**
+     * http://www.geeksforgeeks.org/check-if-array-elements-are-consecutive/
+     * Check if array elements are consecutive
+     * Given an unsorted array of numbers, write a function that returns true 
+     * if array consists of consecutive numbers.
+     * If array is {83, 78, 80, 81, 79, 82}, then the function should return true because the array has consecutive numbers from 78 to 83 
+     */
+    public static boolean areConsecutive(List<Integer> arrayList){
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        // loop to find min/max
+        for (int i=0;i<arrayList.size();i++){
+            if (arrayList.get(i)<min){
+                min = arrayList.get(i);
+            } 
+            if (arrayList.get(i)>max){
+                max = arrayList.get(i);
+            }
+        }
+        boolean[] array = new boolean[arrayList.size()];
+        // fill the array with false
+        for (int i=0;i<array.length;i++){
+            array[i]=false;
+        }
+        // if max - min is greater than the size of the array return false
+        if (max - min > arrayList.size()) {
+            return false;
+        }
+        // traverse through arraylist the element occurs twice then return false 
+        for (int i: arrayList){
+            if (array[max - min + i]==true) {
+                return false;
+            } else {
+                array[max - min + i]=true;
+            }
+        }
+        // return true
+        return true;
+    }
+    /**
+     * http://www.geeksforgeeks.org/find-duplicates-in-on-time-and-constant-extra-space/
+     * Find duplicates in O(n) time and O(1) extra space
+     * Given an array of n elements which contains elements from 0 to n-1, 
+     * with any of these numbers appearing any number of times. 
+     * Find these repeating numbers in O(n) and using only constant memory space. 
+     * Works only for positive numbers, if negative numbers are also present then
+     * another arraylist will be required and signs will be reversed at those positions and compared with the original list 
+     */
+    public static void findDuplicatesInArray(List<Integer> arrayList){
+        for (int i=0 ;i< arrayList.size();i++){
+            if (arrayList.get(i)>0){
+                arrayList.add(i,arrayList.get(i)-2*arrayList.get(i));
+            }
+        }
+        for (int i=0 ;i< arrayList.size();i++){
+            if (arrayList.get(i)>0){
+                System.out.println(arrayList.get(i));
+            }
+        }
+    }
+    /**
+     * http://www.geeksforgeeks.org/equilibrium-index-of-an-array/
+     * Equilibrium index of an array
+     * Equilibrium index of an array is an index such that the sum of 
+     * elements at lower indexes is equal to the sum of elements at higher indexes. 
+     */
+    public static int equilibriumIndex(List<Integer> arrayList){
+        int sum =0;
+        // loop to find sum
+        for (int i:arrayList){
+            sum += i;
+        }
+        int leftsum=0;
+        for (int i:arrayList){
+            leftsum +=i;
+            sum -= i;
+            if (sum == leftsum)
+                return arrayList.indexOf(i);
+        }
+        return -1;
+    }
+    /**
+     * http://www.geeksforgeeks.org/find-the-first-missing-number/
+     * Find the smallest missing number
+     * Given a sorted array of n integers where each integer is in the range from 0 to m-1 and m > n. 
+     * Find the smallest number that is missing from the array. 
+     * Linear Search will give the output in O(n), we can use modified binary search to give output in O(logn) 
+     */
+    public static int findSmallestMissingNumber(List<Integer> arrayList){
+        // todo
+        return -1;
+    }
+    /**
+     *
+     *
+     */
+    /**
+     *
+     *
+     */
+    /**
+     *
+     *
+     */
+    /**
+     *
+     *
+     */
+    /**
+     *
+     *
+     */
+    
+}  
+ 

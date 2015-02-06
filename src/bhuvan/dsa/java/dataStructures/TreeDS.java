@@ -200,7 +200,8 @@ public class TreeDS {
         if (root == null) {
             return null;
         }
-
+        // todo
+        return null;
     }
     /**
      * Do a inOrder on the arrayList input
@@ -363,7 +364,7 @@ public class TreeDS {
      * Given a Binary Tree and a key, write a function that prints all the ancestors of the key in the given binary tree.
      * @param root
      */
-    public static boolean printAncestorsNode(Tree root, int target){
+    public static boolean printAncestorsNode(Tree<Integer> root, int target){
         if (root == null){
             return false;
         }
@@ -430,8 +431,8 @@ public class TreeDS {
         Queue<Tree> queue = new LinkedList<Tree>();
         queue.add(node);
         int index =0;
-        List arrayList = new ArrayList();
-        List auxarray = new ArrayList();
+        List<Tree> arrayList = new ArrayList<Tree>();
+        List<Boolean> auxarray = new ArrayList<Boolean>();
         while (!queue.isEmpty()){
             Tree temp = queue.remove();
             arrayList.add(index, temp);
@@ -502,8 +503,8 @@ public class TreeDS {
      * @param linkedList
      * @return
      */
-    public static List rootToLeafPath(Tree root, int key, List linkedList){
-        List ll = new LinkedList(linkedList);
+    public static List rootToLeafPath(Tree<Integer> root, int key, List linkedList){
+        List<Tree> ll = new LinkedList<Tree>(linkedList);
         if (root==null){
             return null;            
         }
@@ -835,7 +836,7 @@ public class TreeDS {
             printRootToLeafPaths(root.right, newList);
         }
     }
-    public static Tree printLCABinaryTree (Tree root, int n1, int n2){
+    public static Tree printLCABinaryTree (Tree<Integer> root, int n1, int n2){
         if (root == null) {
             return null;
         }
@@ -846,7 +847,8 @@ public class TreeDS {
         printLCABinaryTree(root.right, n1,n2)!= null) {
             // LCA found
         }
-        
+        //todo
+        return null;
         
     }
     /**
@@ -956,6 +958,45 @@ public class TreeDS {
             temp.left = root;
         }
 
+    }
+
+    /**
+     * http://www.geeksforgeeks.org/find-a-pair-with-given-sum-in-bst/
+     * Find a pair with given sum in a Balanced BST
+     * Given a Balanced Binary Search Tree and a target sum, 
+     * write a function that returns true if there is a pair with 
+     * sum equals to target sum, otherwise return false. 
+     * Expected time complexity is O(n) and only O(Logn) 
+     * extra space can be used. Any modification to Binary Search Tree is not allowed. 
+     * Note that height of a Balanced BST is always O(Logn). 
+     * @param root
+     * @param toFind
+     */
+    public static void findPairWithGivenSum(Tree<Integer> root, int toFind){
+        // Do an inorder traversal & reverse inorder traversal, check for the sum
+        // if sum is greater than the required sum, extract next element from inorder
+        // keeping reverse inorder as it is else do reverse inorder
+        Stack<Tree> s1 = new Stack<Tree>();
+        Stack<Tree> s2 = new Stack<Tree>();
+        Tree<Integer> inorderNext = root, reverseInorderNext = root;
+        int inorderElement, reverseInorderElement;
+        boolean isDoneInorder = false, isDoneReverseInorder = false;
+        s1.push(root.left);
+        s2.push(root.right);
+        while (true){
+            // Do an inorder traversal
+            while (isDoneInorder == false) {
+                Tree<Integer> temp = s1.pop();
+                while (temp!=null){
+                    s1.push(temp.left);
+                    temp = temp.left;
+                    
+                }
+                
+            }
+            // Do a reverse inorder traversal
+            
+        }
     }
     public static void main(String [] args){
         Tree h = getNewTree();
